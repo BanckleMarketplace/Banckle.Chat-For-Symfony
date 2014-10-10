@@ -42,11 +42,33 @@ public function registerBundles()
 }
 </pre>
 
+Configuration
+----------------------------------
+
+Add this to your config.yml:
+
+<pre>
+banckle_chat:
+    #(Required) Your Account apiKey from apps.banckle.com
+    apiKey: "XXXXXXXXXXXXX"
+    banckleAccountUri: "https://apps.banckle.com/api/v2"
+    banckleChatUri: "https://chat.banckle.com/v3"
+</pre>
+
 Usage
 ----------------------------------
 
-The Bundle is called as a standard service. To access service:
+The Bundle is called as a standard service. 
 
 <pre>
-$this->get('bancklechat.api');
+To access service:
+$bancklechat = $this->get('bancklechat.api');
+
+To generate token:
+$bancklechat = $this->get('bancklechat.api');
+$token = $bancklechat->getToken($email, $password);
+
+To access all departments:
+$department = $bancklechat->createInstance('DepartmentsApi', $token);
+$result = $department->getDepartments();
 </pre>
