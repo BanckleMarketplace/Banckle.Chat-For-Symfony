@@ -1,0 +1,21 @@
+{
+    "name": "banckle/chat-bundle",
+    "type": "symfony-bundle",
+    "description": "This is a symfony2 bundle to use Banckle.Chat SDK for PHP in symfony2 applications quickly and easily.",
+    "keywords": ["Banckle", "Chat", "SDK", "PHP", "SDK"],
+    "homepage": "https://github.com/BanckleMarketplace/Banckle.Chat-For-Symfony",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Masood Anwer",
+            "email": "masood.anwer@aspose.com"
+        }
+    ],    
+    "require-dev": {
+        "symfony/framework-bundle": ">=2.0"
+    },
+    "autoload": {
+        "psr-0": { "Banckle\\ChatBundle": "" }
+    },
+    "target-dir": "Banckle/ChatBundle"
+}
