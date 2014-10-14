@@ -2,11 +2,13 @@
 
 namespace Banckle\ChatBundle\Service;
 
+use Banckle\Chat\Product;
+use Banckle\Chat\APIClient;
+use Banckle\Chat\AuthApi;
+use Banckle\Chat\SessionApi;
+
 class BanckleChatWrapper
 {
-    private $APIClient = 'APIClient';
-    private $AuthApi = 'AuthApi';
-    private $SessionApi = 'SessionApi';
     private $apiKey = '';
     private $banckleAccountUri = '';
     private $banckleChatUri = '';
@@ -33,9 +35,9 @@ class BanckleChatWrapper
             throw new \InvalidArgumentException('Password not specified');
     	}
         
-        $apiClient = new $this->APIClient($this->apiKey, $this->banckleAccountUri);
+        $apiClient = new APIClient($this->apiKey, $this->banckleAccountUri);
         $body = array('userEmail' => $email, 'password' => $password);
-        $auth = new $this->AuthApi($apiClient);
+        $auth = new AuthApi($apiClient);
         $result = $auth->getToken($body);
         $token = $result->authorization->token;
         return $token;
@@ -51,13 +53,12 @@ class BanckleChatWrapper
     */
     private function createSession($apiClient, $token)
     {
-        $session = new $this->SessionApi($apiClient);
+        $session = new SessionApi($apiClient);
         $result = $session->createSession($token);
         $resource = $result->return->resource;
         
         // Set session resource
-        $className = 'Product';
-        $className::$xResource = $resource;
+        Product::$xResource = $resource;
     }
 	
     /*
@@ -79,9 +80,10 @@ class BanckleChatWrapper
             throw new \InvalidArgumentException('Token not specified');
     	}
         
-        $apiClient = new $this->APIClient($this->apiKey, $this->banckleChatUri);
+        $apiClient = new APIClient($this->apiKey, $this->banckleChatUri);
         $this->createSession($apiClient, $token);
-        return new $apiName($apiClient);
+        $classPath = "Banckle\Chat\\$apiName"; 
+        return new $classPath($apiClient);
     }
 	
 }
